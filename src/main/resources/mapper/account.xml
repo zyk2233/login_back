@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyk.dao.AccountDao">
+
+    <!--查找全部-->
+    <select id="findAll" resultType="com.zyk.domain.Account">
+        select * from account
+    </select>
+
+    <!--插入数据-->
+    <insert id="addAccount" parameterType="com.zyk.domain.Account">
+        insert into account (username,password,phone) values (#{username},#{password},#{phone})
+    </insert>
+
+    <!--删除数据-->
+    <delete id="removeAccount" parameterType="Integer">
+        delete from account where id=#{id}
+    </delete>
+
+    <!--更新数据-->
+    <update id="updateAccount" parameterType="com.zyk.domain.Account">
+        update account
+        <trim prefix="set" suffixOverrides="," suffix=" where id = #{id}">
+            <if test="username != null and username.length() > 0"> username=#{username},</if>
+            <if test="password != null and password.length() > 0"> password=#{password},</if>
+            <if test="phone != null and phone.length() > 0"> phone=#{phone},</if>
+        </trim>
+    </update>
+
+    <!--根据用户名查找用户信息-->
+    <select id="findAccountByUsername" parameterType="String" resultType="com.zyk.domain.Account">
+        select * from account where username=#{username}
+    </select>
+
+</mapper>
